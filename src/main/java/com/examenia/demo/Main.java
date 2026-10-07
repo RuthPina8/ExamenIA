@@ -1,4 +1,5 @@
 package com.examenia.demo;
+import com.examenia.demo.vistas.LoginVista;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,44 +8,17 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class Main extends Application implements EventHandler<ActionEvent>{
-
-    Button button;
-    Button buton2Stay;
-
-    public static void main(String [] args) {
-        launch(args);
-    }
+public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Title of the window");
-        button = new Button();
-        button.setText("Click on me");
-        button.setOnAction(this);
-
-        buton2Stay = new Button();
-        buton2Stay.setText("Hiiiii, im button two");
-        buton2Stay.setOnAction(this);
-
-        StackPane layout = new StackPane();
-        layout.getChildren().add(button);
-        layout.getChildren().add(buton2Stay);
-
-        Scene scene = new Scene(layout, 300, 250);
-        primaryStage.setScene(scene);
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Sistema de visión artificial");
+        primaryStage.setScene(new LoginVista().getEscena());
         primaryStage.show();
     }
 
-    @Override
-    public void handle(ActionEvent event) {
-        if (event.getSource() ==button) {
-            System.out.println("HAHHAHAAHH");
-        }
-
-        if (event.getSource() ==buton2Stay) {
-            System.out.println("Im stayiiiiiiiiiiiiiiiiiing");
-        }
+    public static void main(String [] args) {
+        launch(args);
     }
 }
 
