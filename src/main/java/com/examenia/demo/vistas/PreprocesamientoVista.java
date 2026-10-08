@@ -1,3 +1,4 @@
+// Vista de preprocesamiento: botones de filtros, slider gamma y guardar
 package com.examenia.demo.vistas;
 
 import javafx.geometry.Insets;

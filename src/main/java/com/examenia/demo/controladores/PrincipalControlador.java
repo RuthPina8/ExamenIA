@@ -1,3 +1,4 @@
+// Controlador de la ventana principal: buscar foto, cámara y tomar foto
 package com.examenia.demo.controladores;
 
 import com.examenia.demo.servicios.VisionCliente;

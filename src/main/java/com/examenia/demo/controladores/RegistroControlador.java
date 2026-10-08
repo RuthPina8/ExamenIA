@@ -1,3 +1,4 @@
+// Controlador del registro: valida y crea nuevos usuarios
 package com.examenia.demo.controladores;
 
 import com.examenia.demo.servicios.UsuarioServicio;

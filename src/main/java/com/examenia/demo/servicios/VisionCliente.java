@@ -1,3 +1,4 @@
+// Cliente HTTP que llama a la API de Python (filtros, cámara, guardar)
 package com.examenia.demo.servicios;
 
 import java.io.ByteArrayOutputStream;

@@ -1,3 +1,4 @@
+# Endpoint para guardar imágenes en la base de datos
 from typing import Literal
 from fastapi import APIRouter, UploadFile, File, Query, HTTPException
 from fastapi.concurrency import run_in_threadpool

@@ -1,3 +1,4 @@
+// Controlador de preprocesamiento: aplica filtros, gamma y guarda la imagen
 package com.examenia.demo.controladores;
 
 import com.examenia.demo.servicios.VisionCliente;

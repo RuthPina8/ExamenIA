@@ -1,3 +1,4 @@
+// Consultas de usuarios: login, verificar existencia y registro
 package com.examenia.demo.servicios;
 
 import java.sql.Connection;

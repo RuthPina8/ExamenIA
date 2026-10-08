@@ -1,3 +1,4 @@
+// Utilidad para mostrar alertas de información, advertencia y error
 package com.examenia.demo.vistas;
 
 import javafx.scene.control.Alert;

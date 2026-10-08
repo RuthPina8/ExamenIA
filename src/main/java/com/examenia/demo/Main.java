@@ -1,3 +1,4 @@
+// Clase principal: arranca la app JavaFX y abre el login
 package com.examenia.demo;
 
 import com.examenia.demo.controladores.LoginControlador;

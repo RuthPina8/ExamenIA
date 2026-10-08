@@ -1,3 +1,4 @@
+# Crea la conexión a PostgreSQL usando los datos del .env
 import os
 from pathlib import Path
 import psycopg2

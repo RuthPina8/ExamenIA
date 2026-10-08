@@ -1,3 +1,4 @@
+# Endpoints de filtros: gris, HSV, negativa, destacar colores, gamma y capas
 from fastapi import APIRouter, UploadFile, File, HTTPException, Query
 from fastapi.responses import Response
 from servicios.imagenes import bytes_a_imagen, imagen_a_png, imagen_a_base64

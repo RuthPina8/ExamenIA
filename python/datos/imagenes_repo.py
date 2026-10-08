@@ -1,3 +1,4 @@
+# Guarda imágenes en la tabla imagenes (píxeles en RGB como JSON)
 import json
 from datos.conexion import obtener_conexion
 

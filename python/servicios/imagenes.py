@@ -1,3 +1,4 @@
+# Conversión de imágenes: bytes a imagen y a PNG/JPG/base64
 import cv2
 import numpy as np
 import base64

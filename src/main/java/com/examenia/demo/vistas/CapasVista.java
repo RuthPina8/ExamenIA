@@ -1,3 +1,4 @@
+// Vista de la ventana que muestra la imagen separada en capas
 package com.examenia.demo.vistas;
 
 import javafx.geometry.Insets;

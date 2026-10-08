@@ -1,3 +1,4 @@
+// Vista de la pantalla de inicio de sesión
 package com.examenia.demo.vistas;
 
 import javafx.geometry.Insets;
