@@ -11,8 +11,7 @@ CREATE TABLE usuarios (
     contrasena       VARCHAR(50) NOT NULL
 );
 
--- tipo dice que preprocesamiento tiene la imagen (original si no tiene ninguno)
--- pixeles guarda la imagen como [[B,G,R], [B,G,R], ...]
+
 CREATE TABLE imagenes (
     id          SERIAL PRIMARY KEY,
     usuario_id  INTEGER NOT NULL REFERENCES usuarios(id),
