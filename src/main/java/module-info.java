@@ -1,8 +1,9 @@
 module com.examenia.demo {
     requires javafx.controls;
     requires javafx.fxml;
-
-    requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
+    requires org.postgresql.jdbc;
+    requires io.github.cdimascio.dotenv.java;
 
     opens com.examenia.demo to javafx.fxml;
     exports com.examenia.demo;

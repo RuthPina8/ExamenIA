@@ -1,5 +1,7 @@
 package com.examenia.demo;
 import com.examenia.demo.vistas.LoginVista;
+import com.examenia.demo.vistas.RegistroVista;
+import com.examenia.demo.vistas.VistaPrincipal;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Sistema de visión artificial");
-        primaryStage.setScene(new LoginVista().getEscena());
+        primaryStage.setScene(new VistaPrincipal().getEscena());
         primaryStage.show();
     }
 
