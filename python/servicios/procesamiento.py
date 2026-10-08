@@ -40,3 +40,7 @@ def destacar_verde(imagen):
 
 def destacar_azul(imagen):
     return destacar(imagen, [(azulBajo, azulAlto)])
+
+def gamma(imagen, valor):
+    tabla = np.array([((i / 255.0) ** valor) * 255 for i in range(256)]).astype(np.uint8)
+    return cv2.LUT(imagen, tabla)

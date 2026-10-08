@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Query
 from fastapi.responses import Response
 from servicios.imagenes import bytes_a_imagen, imagen_a_png
 from servicios import procesamiento
@@ -46,3 +46,13 @@ async def destacar_verde(archivo: UploadFile = File(...)):
 @router.post("/destacar-azul")
 async def destacar_azul(archivo: UploadFile = File(...)):
     return responder_png(procesamiento.destacar_azul(await leer_imagen(archivo)))
+
+
+@router.post("/gamma")
+async def gamma(archivo: UploadFile = File(...), valor: float = Query(1.0, ge=0, le=2)):
+    return responder_png(procesamiento.gamma(await leer_imagen(archivo), valor))
+
+
+
+
+
