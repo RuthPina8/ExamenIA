@@ -1,6 +1,16 @@
 import numpy as np
 import cv2 
 
+
+rojoBajo1 = np.array([0, 100, 20], np.uint8)
+rojoAlto1 = np.array([8, 255, 255], np.uint8)
+rojoBajo2 = np.array([175, 100, 20], np.uint8)
+rojoAlto2 = np.array([179, 255, 255], np.uint8)
+verdeBajo = np.array([35, 100, 20], np.uint8)
+verdeAlto = np.array([85, 255, 255], np.uint8)
+azulBajo = np.array([100, 100, 20], np.uint8)
+azulAlto = np.array([125, 255, 255], np.uint8)
+
 def gris(imagen):
     
     cAzul = imagen[:, :, 0]
@@ -14,3 +24,19 @@ def hsv(imagen):
 
 def negativa(imagen):
     return 255 - imagen
+
+def destacar(imagen, rangos):
+    imgHSV = cv2.cvtColor(imagen, cv2.COLOR_BGR2HSV)
+    mascara = np.zeros(imagen.shape[:2], np.uint8)
+    for bajo, alto in rangos:
+        mascara = cv2.add(mascara, cv2.inRange(imgHSV, bajo, alto))
+    return cv2.bitwise_and(imagen, imagen, mask=mascara)
+
+def destacar_rojo(imagen):
+    return destacar(imagen, [(rojoBajo1, rojoAlto1), (rojoBajo2, rojoAlto2)])
+
+def destacar_verde(imagen):
+    return destacar(imagen, [(verdeBajo, verdeAlto)])
+
+def destacar_azul(imagen):
+    return destacar(imagen, [(azulBajo, azulAlto)])

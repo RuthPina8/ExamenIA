@@ -34,3 +34,15 @@ async def hsv(archivo: UploadFile = File(...)):
 @router.post("/negativa")
 async def negativa(archivo: UploadFile = File(...)):
     return responder_png(procesamiento.negativa(await leer_imagen(archivo)))
+
+@router.post("/destacar-rojo")
+async def destacar_rojo(archivo: UploadFile = File(...)):
+    return responder_png(procesamiento.destacar_rojo(await leer_imagen(archivo)))
+
+@router.post("/destacar-verde")
+async def destacar_verde(archivo: UploadFile = File(...)):
+    return responder_png(procesamiento.destacar_verde(await leer_imagen(archivo)))
+
+@router.post("/destacar-azul")
+async def destacar_azul(archivo: UploadFile = File(...)):
+    return responder_png(procesamiento.destacar_azul(await leer_imagen(archivo)))
