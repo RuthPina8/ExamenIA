@@ -1,11 +1,14 @@
 package com.examenia.demo.controladores;
 
+import com.examenia.demo.servicios.VisionCliente;
 import com.examenia.demo.vistas.Alertas;
 import com.examenia.demo.vistas.PreprocesamientoVista;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 public class PreprocesamientoControlador {
 
@@ -16,6 +19,7 @@ public class PreprocesamientoControlador {
     private byte[] foto;
     private String tipo = "original";
     private double gamma = 1;
+    private boolean gammaEnCurso = false;
 
     public PreprocesamientoControlador(byte[] original, int idUsuario) {
         this.original = original;
@@ -45,26 +49,61 @@ public class PreprocesamientoControlador {
         ventana.show();
     }
 
-    // TODO API: POST /filtros/{tipo} o /filtros/destacar/{color} con la foto original
     private void filtro(String tipo) {
-        Alertas.informacion("Preprocesamiento", "El filtro " + tipo + " está pendiente de conectar con la API.");
+        try {
+            actualizarFoto(VisionCliente.filtro(tipo, original), tipo);
+        } catch (IOException ex) {
+            Alertas.error("Preprocesamiento", VisionCliente.explicar(ex));
+        }
     }
 
-    // TODO API: POST /filtros/gamma?valor=
+    
     private void aplicarGamma(double valor) {
         gamma = valor;
+        if (gammaEnCurso) {
+            return;
+        }
+        gammaEnCurso = true;
+
+        Thread hilo = new Thread(() -> {
+            try {
+                byte[] resultado = VisionCliente.gamma(original, valor);
+                Platform.runLater(() -> {
+                    actualizarFoto(resultado, "gamma");
+                    terminarGamma(valor);
+                });
+            } catch (IOException ex) {
+                Platform.runLater(() -> {
+                    gammaEnCurso = false;
+                    Alertas.error("Gamma", VisionCliente.explicar(ex));
+                });
+            }
+        });
+        hilo.setDaemon(true);
+        hilo.start();
     }
 
-    // TODO API: POST /imagenes?usuario_id=idUsuario&tipo=tipo (y valor_gamma si es gamma)
+    private void terminarGamma(double valorAplicado) {
+        gammaEnCurso = false;
+        if (gamma != valorAplicado) {
+            aplicarGamma(gamma);
+        }
+    }
+
     private void guardar() {
         if (tipo.equals("original")) {
             Alertas.advertencia("Guardar", "Primero aplica algún preprocesamiento a la imagen.");
             return;
         }
-        Alertas.informacion("Guardar", "Pendiente de conectar con la API de Python.");
+        try {
+            Double valorGamma = tipo.equals("gamma") ? gamma : null;
+            VisionCliente.guardar(foto, idUsuario, tipo, valorGamma);
+            Alertas.informacion("Guardar", "Imagen guardada en la base de datos.");
+        } catch (IOException ex) {
+            Alertas.error("Guardar", VisionCliente.explicar(ex));
+        }
     }
 
-    // Se llama cuando la API regresa la imagen ya procesada
     public void actualizarFoto(byte[] bytes, String tipo) {
         foto = bytes;
         this.tipo = tipo;
