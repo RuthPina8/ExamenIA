@@ -7,4 +7,5 @@ module com.examenia.demo {
 
     opens com.examenia.demo to javafx.fxml;
     exports com.examenia.demo;
+    requires java.net.http;
 }

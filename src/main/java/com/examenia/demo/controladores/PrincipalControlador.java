@@ -1,10 +1,17 @@
 package com.examenia.demo.controladores;
 
+import com.examenia.demo.servicios.VisionCliente;
 import com.examenia.demo.vistas.Alertas;
 import com.examenia.demo.vistas.VistaPrincipal;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -18,6 +25,10 @@ public class PrincipalControlador {
     private final int idUsuario;
     private byte[] foto;
 
+    private Timeline video;
+    private boolean pidiendoFrame = false;
+    private byte[] ultimoFrame;
+
     public PrincipalControlador(Stage stage, int idUsuario) {
         this.stage = stage;
         this.idUsuario = idUsuario;
@@ -29,6 +40,8 @@ public class PrincipalControlador {
         vista.getPhoto().setOnAction(e -> tomarFoto());
         vista.getSave().setOnAction(e -> guardar());
         vista.getPreLoad().setOnAction(e -> new PreprocesamientoControlador(foto, idUsuario).mostrar());
+
+        stage.addEventHandler(WindowEvent.WINDOW_HIDDEN, e -> detenerCamara());
     }
 
     public void mostrar() {
@@ -37,6 +50,8 @@ public class PrincipalControlador {
     }
 
     private void buscarFoto() {
+        detenerCamara();
+
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Buscar foto");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg"));
@@ -54,28 +69,97 @@ public class PrincipalControlador {
     }
 
     private void limpiar() {
+        detenerCamara();
         foto = null;
         vista.getImgFoto().setImage(null);
         vista.getPreLoad().setDisable(true);
     }
 
-    // TODO API: GET /camara/cuadro (ver docs/API.md)
     private void encenderCamara() {
-        Alertas.informacion("Cámara", "Pendiente de conectar con la API de Python.");
+        if (video != null) {
+            return;
+        }
+
+        try {
+            VisionCliente.encenderCamara();
+        } catch (IOException ex) {
+            Alertas.error("Cámara", VisionCliente.explicar(ex));
+            return;
+        }
+
+        foto = null;
+        ultimoFrame = null;
+        vista.getPreLoad().setDisable(true);
+
+        video = new Timeline(new KeyFrame(Duration.millis(100), e -> pedirFrame()));
+        video.setCycleCount(Animation.INDEFINITE);
+        video.play();
     }
 
-    // TODO API: tomar el ultimo cuadro de la camara y mandarlo a ponerFoto()
+    private void pedirFrame() {
+        if (pidiendoFrame) {
+            return;
+        }
+        pidiendoFrame = true;
+
+        Thread hilo = new Thread(() -> {
+            try {
+                byte[] frame = VisionCliente.frame();
+                Platform.runLater(() -> {
+                    pidiendoFrame = false;
+                    if (video != null) {
+                        ultimoFrame = frame;
+                        vista.getImgFoto().setImage(new Image(new ByteArrayInputStream(frame)));
+                    }
+                });
+            } catch (IOException ex) {
+                Platform.runLater(() -> pidiendoFrame = false);
+            }
+        });
+        hilo.setDaemon(true);
+        hilo.start();
+    }
+
     private void tomarFoto() {
-        Alertas.informacion("Cámara", "Pendiente de conectar con la API de Python.");
+        if (video == null) {
+            Alertas.advertencia("Cámara", "Primero enciende la cámara.");
+            return;
+        }
+
+        detenerCamara();
+
+        if (ultimoFrame == null) {
+            Alertas.advertencia("Cámara", "La cámara todavía no había mandado ninguna imagen. Inténtalo de nuevo.");
+            return;
+        }
+        ponerFoto(ultimoFrame);
     }
 
-    // TODO API: POST /imagenes?usuario_id=idUsuario&tipo=original
+    private void detenerCamara() {
+        if (video == null) {
+            return;
+        }
+        video.stop();
+        video = null;
+
+        try {
+            VisionCliente.apagarCamara();
+        } catch (IOException ignored) {
+        }
+    }
+
     private void guardar() {
         if (foto == null) {
             Alertas.advertencia("Guardar", "Primero busca o toma una foto.");
             return;
         }
-        Alertas.informacion("Guardar", "Pendiente de conectar con la API de Python.");
+
+        try {
+            VisionCliente.guardar(foto, idUsuario, "original", null);
+            Alertas.informacion("Guardar", "Imagen guardada en la base de datos.");
+        } catch (IOException ex) {
+            Alertas.error("Guardar", VisionCliente.explicar(ex));
+        }
     }
 
     public void ponerFoto(byte[] bytes) {
