@@ -1,3 +1,4 @@
+// Controlador del login: valida usuario y abre la ventana principal
 package com.examenia.demo.controladores;
 
 import com.examenia.demo.servicios.UsuarioServicio;

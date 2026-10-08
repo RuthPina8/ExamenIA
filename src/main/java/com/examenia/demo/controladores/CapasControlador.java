@@ -1,3 +1,4 @@
+// Controlador de la ventana de separación en capas (RGB y CMY)
 package com.examenia.demo.controladores;
 
 import com.examenia.demo.servicios.VisionCliente;

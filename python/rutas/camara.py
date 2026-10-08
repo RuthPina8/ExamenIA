@@ -1,3 +1,4 @@
+# Endpoints para encender, apagar y obtener frames de la cámara
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from servicios import camara

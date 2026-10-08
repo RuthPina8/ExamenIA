@@ -1,3 +1,4 @@
+# Dependencias de Python para el servidor de visión
 fastapi
 uvicorn[standard]
 python-multipart

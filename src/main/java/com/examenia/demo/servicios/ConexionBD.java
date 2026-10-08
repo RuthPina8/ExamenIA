@@ -1,3 +1,4 @@
+// Conexión JDBC a PostgreSQL usando los datos del .env
 package com.examenia.demo.servicios;
 
 import io.github.cdimascio.dotenv.Dotenv;

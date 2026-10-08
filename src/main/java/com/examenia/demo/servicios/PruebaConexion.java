@@ -1,3 +1,4 @@
+// Programa de prueba para verificar la conexión a la base de datos
 package com.examenia.demo.servicios;
 
 import java.sql.Connection;

@@ -1,3 +1,4 @@
+# Algoritmos de procesamiento de imagen (filtros, gamma, capas)
 import numpy as np
 import cv2 
 

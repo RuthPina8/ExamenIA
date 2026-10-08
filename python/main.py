@@ -1,3 +1,4 @@
+# Punto de entrada de la API FastAPI: registra las rutas del servidor de visión
 from fastapi import FastAPI
 from rutas.preprocesamiento import router as preprocesamiento_router
 from rutas.camara import router as camara_router

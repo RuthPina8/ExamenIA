@@ -1,3 +1,4 @@
+// Vista del formulario de registro de usuarios
 package com.examenia.demo.vistas;
 
 import javafx.geometry.Insets;

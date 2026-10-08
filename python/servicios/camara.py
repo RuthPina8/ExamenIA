@@ -1,3 +1,4 @@
+# Manejo de la cámara web con OpenCV (encender, leer frame, apagar)
 import threading
 import cv2
 

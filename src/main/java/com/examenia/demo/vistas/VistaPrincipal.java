@@ -1,3 +1,4 @@
+// Vista principal: visor de foto y botones de cámara/foto
 package com.examenia.demo.vistas;
 
 import javafx.geometry.Insets;
