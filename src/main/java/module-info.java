@@ -1,6 +1,6 @@
 // Declaración del módulo Java: módulos requeridos por la app
 module com.examenia.demo {
-    requires javafx.controls;
+    requires transitive javafx.controls;
     requires javafx.fxml;
     requires java.sql;
     requires org.postgresql.jdbc;
