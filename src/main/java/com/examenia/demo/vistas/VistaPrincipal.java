@@ -34,7 +34,7 @@ public class VistaPrincipal {
         marcoFoto.setPrefSize(400, 300);
         marcoFoto.setStyle("-fx-border-color: #555; -fx-border-width: 2; -fx-background-color: #eee;");
 
-        searchPhoto = crearBoton("Buscar fOTO");
+        searchPhoto = crearBoton("Buscar foto");
         clean = crearBoton("Limpiar");
         turnOn = crearBoton("Encender Camara");
         photo = crearBoton("Tomar foto");

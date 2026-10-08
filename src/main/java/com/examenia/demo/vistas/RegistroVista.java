@@ -34,7 +34,7 @@ public class RegistroVista {
         form.setAlignment(Pos.CENTER);
 
         form.addRow(0, new Label("Nombre:"), nombre);
-        form.addRow(1, new Label("Appellido Paterno:"), apellidoPaterno);
+        form.addRow(1, new Label("Apellido Paterno:"), apellidoPaterno);
         form.addRow(2, new Label("Apellido Materno:"), appellidoMaterno);
         form.addRow(3, new Label("Nombre de Usuario:"), usuario);
         form.addRow(4, new Label("Contraseña:"), contra);
