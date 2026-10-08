@@ -1,8 +1,5 @@
 -- Esquema de la base de datos: tablas usuarios e imagenes + usuario de prueba
 
-DROP TABLE IF EXISTS imagenes;
-DROP TABLE IF EXISTS usuarios;
-
 CREATE TABLE usuarios (
     id               SERIAL PRIMARY KEY,
     nombre           VARCHAR(50) NOT NULL,
