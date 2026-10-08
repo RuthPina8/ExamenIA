@@ -3,7 +3,8 @@ from datos.conexion import obtener_conexion
 
 def guardar_imagen(imagen, tipo, usuario_id, valor_gamma=None):
     alto, ancho = imagen.shape[:2]
-    pixeles = json.dumps(imagen.reshape(-1, 3).tolist())
+    rgb = imagen[:, :, ::-1]
+    pixeles = json.dumps(rgb.reshape(-1, 3).tolist())
     conexion = obtener_conexion()
     try:
         with conexion:
