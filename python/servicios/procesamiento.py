@@ -44,3 +44,17 @@ def destacar_azul(imagen):
 def gamma(imagen, valor):
     tabla = np.array([((i / 255.0) ** valor) * 255 for i in range(256)]).astype(np.uint8)
     return cv2.LUT(imagen, tabla)
+
+
+def separar_capas(imagen):
+    
+    canales = {
+        "rojo": [2], "verde": [1], "azul": [0],
+        "magenta": [2, 0], "amarillo": [2, 1], "cian": [1, 0],
+    }
+    capas = {}
+    for nombre, indices in canales.items():
+        capa = np.zeros_like(imagen)
+        capa[:, :, indices] = imagen[:, :, indices]
+        capas[nombre] = capa
+    return capas

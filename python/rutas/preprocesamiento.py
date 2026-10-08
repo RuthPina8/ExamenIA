@@ -1,6 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Query
 from fastapi.responses import Response
-from servicios.imagenes import bytes_a_imagen, imagen_a_png
+from servicios.imagenes import bytes_a_imagen, imagen_a_png, imagen_a_base64
 from servicios import procesamiento
 
 router = APIRouter(prefix="/preprocesamiento", tags=["Preprocesamiento"])
@@ -51,6 +51,11 @@ async def destacar_azul(archivo: UploadFile = File(...)):
 @router.post("/gamma")
 async def gamma(archivo: UploadFile = File(...), valor: float = Query(1.0, ge=0, le=2)):
     return responder_png(procesamiento.gamma(await leer_imagen(archivo), valor))
+
+@router.post("/separar-capas")
+async def separar_capas(archivo: UploadFile = File(...)):
+    capas = procesamiento.separar_capas(await leer_imagen(archivo))
+    return {nombre: imagen_a_base64(capa) for nombre, capa in capas.items()}
 
 
 
